@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
-const dbURL =
-   'mongodb+srv://vvvmikhnov:PuAlyEE2cDN0zvW2@cluster0.xpwkjgu.mongodb.net/codeUp?retryWrites=true&w=majority&appName=Cluster0s'
+import dotenv from 'dotenv'
+
+dotenv.config()
+const dbURL = process.env.MONGO_URI
 
 const connectDB = async () => {
    try {
