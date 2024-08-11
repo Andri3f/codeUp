@@ -4,6 +4,7 @@ import connectDB from './src/database/database.js'
 
 async function createServer() {
    const app = express()
+   app.use(express.json())
    await connectDB()
    await setupMiddlewares(app)
 
