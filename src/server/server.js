@@ -4,6 +4,8 @@ import serveIndexHtml from './middlewares/middleware.js'
 
 const app = express()
 
+app.use(express.static(process.cwd()))
+
 connectDB()
 
 serveIndexHtml(app)
