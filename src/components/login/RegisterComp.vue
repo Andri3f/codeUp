@@ -17,10 +17,12 @@
          <label for="passConfirm" class="form-label">Confirm Password</label>
       </div>
       <button @click="onRegister" class="form-button">Register</button>
+      <RouterLink :to="{ name: 'login' }">Log in </RouterLink>
    </div>
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router'
 import { reactive } from 'vue'
 import axios from 'axios'
 
