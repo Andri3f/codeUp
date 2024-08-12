@@ -24,6 +24,8 @@ coverage
 *.suo
 *.ntvs*
 *.njsproj
+.env
+.env.*
 *.sln
 *.sw?
 netlify
