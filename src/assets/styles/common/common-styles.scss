@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:regular,500,700&display=swap');
+[class*='__container'] {
+   max-width: 1278px;
+   margin: 0 auto;
+   padding: 0 15px;
+}
+
+.wrapper {
+   position: relative;
+   min-height: 100%;
+   display: flex;
+   flex-direction: column;
+   overflow: hidden;
+   //@supports (overflow: clip) {
+   //   overflow: clip;
+   //}
+   // Притискаємо footer
+   > main {
+      flex: 1 1 auto;
+   }
+   // Фікс для слайдерів
+   > * {
+      min-width: 0;
+   }
+}
+body {
+   background-color: #0c0b0b;
+   color: #fff;
+   font-family: 'Inter';
+}
+input {
+   outline: none;
+}

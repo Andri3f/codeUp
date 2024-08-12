@@ -1,9 +1,9 @@
 <template>
-   <div>
-      <h1>Home</h1>
-   </div>
+   <main-master-page></main-master-page>
 </template>
 
-<script setup></script>
+<script setup>
+import MainMasterPage from '../masterPages/MainMasterPage.vue'
+</script>
 
 <style lang="scss" scoped></style>
