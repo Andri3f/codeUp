@@ -2,9 +2,11 @@ import express from 'express'
 import { setupMiddlewares } from './src/middlewares/middleware.js'
 import connectDB from './src/database/database.js'
 import morgan from 'morgan'
+import cors from 'cors'
 
 async function createServer() {
    const app = express()
+   app.use(cors())
    app.use(morgan('dev'))
    app.use(express.json())
    await connectDB()
