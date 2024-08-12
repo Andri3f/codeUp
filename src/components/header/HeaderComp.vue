@@ -16,7 +16,7 @@
                </li>
             </ul>
          </nav>
-         <RouterLink :to="{ name: 'login' }" class="header__login-btn">Login/register</RouterLink>
+         <RouterLink :to="{ name: 'register' }" class="header__login-btn">Login/register</RouterLink>
       </div>
    </header>
 </template>

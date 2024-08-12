@@ -29,9 +29,17 @@ const router = createRouter({
          },
       },
       {
-         path: '/login',
-         name: 'login',
-         component: () => import('../views/LoginPgae.vue'),
+         path: '/register',
+         name: 'register',
+         component: () => import('../views/LoginPage.vue'),
+         meta: {
+            requireAuth: false,
+         },
+      },
+      {
+         path: '/:pathMatch(.*)*',
+         name: 'notFound',
+         component: () => import('../components/error/ErrorComp.vue'),
          meta: {
             requireAuth: false,
          },

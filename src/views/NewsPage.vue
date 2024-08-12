@@ -3,9 +3,12 @@
 </template>
 
 <script setup>
+import { ref } from 'joi'
 import { onMounted } from 'vue'
 import MainMasterPage from '../masterPages/MainMasterPage.vue'
 const apiUrl = 'https://dev.to/api/articles?per_page=10&tag=programming&top=1'
+
+let newsList = ref('')
 
 onMounted(() => {
    async function fetchProgrammingNews() {
@@ -14,6 +17,7 @@ onMounted(() => {
          const newsData = await response.json()
          const topNews = newsData.slice(0, 10)
          console.log(topNews)
+         newsList.value = topNews
       } catch (error) {
          console.error('Помилка при отриманні новин:', error)
       }
