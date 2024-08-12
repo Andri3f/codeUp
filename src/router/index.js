@@ -31,7 +31,7 @@ const router = createRouter({
       {
          path: '/login',
          name: 'login',
-         component: () => import('../views/ContactsPage.vue'),
+         component: () => import('../views/LoginPgae.vue'),
          meta: {
             requireAuth: false,
          },
@@ -39,6 +39,6 @@ const router = createRouter({
    ],
 })
 
-router.beforeEach(async (to) => {})
+//router.beforeEach(async (to) => {})
 
 export default router
