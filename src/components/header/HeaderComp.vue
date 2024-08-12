@@ -16,12 +16,16 @@
                </li>
             </ul>
          </nav>
-         <RouterLink :to="{ name: 'register' }" class="header__login-btn">Login/register</RouterLink>
+         <!--<router-link class="header__login-btn" :to="{ name: 'home' }"
+            ><font-awesome-icon :icon="['fas', 'user']"
+         /></router-link>-->
+         <RouterLink :to="{ name: 'register' }" class="header__login-btn">Login/Register</RouterLink>
       </div>
    </header>
 </template>
 
 <script setup>
+//import User from '../../models/userModel.js'
 import { RouterLink } from 'vue-router'
 
 // method

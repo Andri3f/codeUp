@@ -1,16 +1,25 @@
 <template>
-   <main-master-page></main-master-page>
+   <main-master-page>
+      <section class="news">
+         <div class="news__conatiner">
+            <h2 class="news__title">News Title</h2>
+            <article class="news__item" v-for="(newsItem, indx) in newsList" :key="indx">
+               {{ newsItem }}
+               <!-- або інша властивість, що вам потрібна -->
+            </article>
+         </div>
+      </section>
+   </main-master-page>
 </template>
 
 <script setup>
-import { ref } from 'joi'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import MainMasterPage from '../masterPages/MainMasterPage.vue'
-const apiUrl = 'https://dev.to/api/articles?per_page=10&tag=programming&top=1'
 
-let newsList = ref('')
+let newsList = ref([])
 
 onMounted(() => {
+   const apiUrl = 'https://dev.to/api/articles?per_page=10&tag=programming&top=1'
    async function fetchProgrammingNews() {
       try {
          const response = await fetch(apiUrl)
