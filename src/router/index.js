@@ -45,6 +45,14 @@ const router = createRouter({
          },
       },
       {
+         path: '/user',
+         name: 'user',
+         component: () => import('../views/UserPage.vue'),
+         meta: {
+            requireAuth: false,
+         },
+      },
+      {
          path: '/:pathMatch(.*)*',
          name: 'notFound',
          component: () => import('../components/error/ErrorComp.vue'),
