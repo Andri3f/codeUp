@@ -1,12 +1,12 @@
 <template>
    <div class="form-container">
-      <div class="form-group">
+      <!-- <div class="form-group">
          <input v-model="userData.name" type="text" id="name" class="form-input" />
          <label for="name" class="form-label">Name</label>
-      </div>
+      </div> -->
       <div class="form-group">
          <input v-model="userData.mail" type="email" id="mail" class="form-input" />
-         <label for="mail" class="form-label">Mail</label>
+         <label for="mail" class="form-label">Email</label>
       </div>
       <div class="form-group">
          <input v-model="userData.pass" type="password" id="pass" class="form-input" />
@@ -16,38 +16,37 @@
          <input v-model="userData.passConfirm" type="password" id="passConfirm" class="form-input" />
          <label for="passConfirm" class="form-label">Confirm Password</label>
       </div>
-      <button @click="onRegister" class="form-button">Register</button>
-      <RouterLink :to="{ name: 'login' }" class="form-link">You have account? Login </RouterLink>
+      <button @click="onLogin" class="form-button">Login</button>
+      <RouterLink :to="{ name: 'register' }" class="form-link">Don't have an account? Register</RouterLink>
    </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
 import { reactive } from 'vue'
 import axios from 'axios'
 
 const userData = reactive({
-   name: '',
    mail: '',
    pass: '',
    passConfirm: '',
 })
 
-async function onRegister() {
+async function onLogin() {
    if (userData.pass !== userData.passConfirm) {
       alert('Passwords do not match!')
       return
    }
-
    try {
-      const response = await axios.post('http://localhost:3000/api/register', {
-         name: userData.name,
+      const response = await axios.post('http://localhost:3000/api/login', {
          email: userData.mail,
          password: userData.pass,
       })
-      alert(response.data.message)
+
+      const { token } = response.data
+      localStorage.setItem('authToken', token)
+      alert('Login successful!')
    } catch (error) {
-      alert('Registration failed: ' + error.response.data.message)
+      alert('Login failed: ' + error.response.data.message)
    }
 }
 </script>
@@ -106,7 +105,6 @@ async function onRegister() {
 .form-button:hover {
    background-color: #0056b3;
 }
-
 .form-link {
    display: block;
    margin-top: 10px;
