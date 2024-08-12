@@ -1,6 +1,5 @@
 <template>
    <main-master-page>
-      dgk;hmfkghmn
       <login-comp />
    </main-master-page>
 </template>
