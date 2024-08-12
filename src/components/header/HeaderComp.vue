@@ -23,6 +23,8 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+
+// method
 </script>
 
 <style lang="scss" scoped>
