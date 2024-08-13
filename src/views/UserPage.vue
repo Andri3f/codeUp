@@ -20,4 +20,15 @@ function onLogout() {}
 function addTwoFactorAuth() {}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.user-page {
+   // .user-page__container
+   &__container {
+      display: grid;
+      gap: 20px;
+      button {
+         background-color: #9b5c5c;
+      }
+   }
+}
+</style>
