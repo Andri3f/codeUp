@@ -1,7 +1,7 @@
 <template>
    <div class="wrapper">
       <header-comp />
-      <main class="master">
+      <main class="main">
          <slot></slot>
       </main>
    </div>

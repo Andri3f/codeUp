@@ -32,13 +32,12 @@
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 
-const isAuthenticated = ref(false)
 const isUser = computed(() => {
-   const user = localStorage.getItem('authToken')
-   return user
+   return localStorage.getItem('authToken')
 })
+const isAuthenticated = ref(false)
 onMounted(async () => {
-   const token = localStorage.getItem('authToken')
+   const token = isUser.value
    if (token) {
       try {
          const response = await axios.get('/api/auth/check-auth', {

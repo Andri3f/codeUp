@@ -1,5 +1,9 @@
 <template>
-   <section class=""></section>
+   <section class="master">
+      <div class="master__container">
+         <h1 class="master__title">{{ $t('titles.mainTitle') }}</h1>
+      </div>
+   </section>
 </template>
 
 <script setup>
