@@ -6,7 +6,11 @@ import cors from 'cors'
 
 async function createServer() {
    const app = express()
-   app.use(cors())
+   app.use(
+      cors({
+         exposedHeaders: ['Authorization'],
+      }),
+   )
    app.use(morgan('dev'))
    app.use(express.json())
    await connectDB()

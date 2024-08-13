@@ -18,17 +18,43 @@
                </li>
             </ul>
          </nav>
-         <router-link :to="{ name: 'user' }" class="header__user-btn"
-            ><font-awesome-icon :icon="['fas', 'user']"
-         /></router-link>
-         <!--<RouterLink :to="{ name: 'register' }" class="header__login-btn button" ref="registerBtn"
-            >Login/Register</RouterLink
-         >-->
+         <router-link v-if="isUser" :to="{ name: 'user' }" class="header__user-btn">
+            <font-awesome-icon :icon="['fas', 'user']" />
+         </router-link>
+         <router-link v-else :to="{ name: 'register' }" class="header__login-btn button" ref="registerBtn">
+            Login/Register
+         </router-link>
       </div>
    </header>
 </template>
+
 <script setup>
-import { RouterLink } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
+import axios from 'axios'
+
+const isAuthenticated = ref(false)
+const isUser = computed(() => {
+   const user = localStorage.getItem('authToken')
+   return user
+})
+onMounted(async () => {
+   const token = localStorage.getItem('authToken')
+   if (token) {
+      try {
+         const response = await axios.get('/api/auth/check-auth', {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         })
+         isAuthenticated.value = response.data.isAuthenticated
+      } catch (err) {
+         console.error('Error checking authentication status:', err)
+         isAuthenticated.value = false
+      }
+   } else {
+      isAuthenticated.value = false
+   }
+})
 </script>
 
 <style lang="scss" scoped>
