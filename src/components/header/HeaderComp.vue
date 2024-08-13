@@ -21,9 +21,9 @@
          <router-link :to="{ name: 'user' }" class="header__user-btn"
             ><font-awesome-icon :icon="['fas', 'user']"
          /></router-link>
-         <RouterLink :to="{ name: 'register' }" class="header__login-btn button" ref="registerBtn"
+         <!--<RouterLink :to="{ name: 'register' }" class="header__login-btn button" ref="registerBtn"
             >Login/Register</RouterLink
-         >
+         >-->
       </div>
    </header>
 </template>
@@ -34,6 +34,8 @@ import { RouterLink } from 'vue-router'
 <style lang="scss" scoped>
 .header {
    position: fixed;
+   z-index: 90;
+   background-color: #0c0b0b;
    top: 0;
    left: 0;
    width: 100%;
