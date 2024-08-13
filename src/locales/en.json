@@ -1,5 +1,8 @@
 {
    "titles": {
       "mainTitle": "Перегляньте наші найкращі курси розвитку"
+   },
+   "buttons": {
+      "detaildedAboutCourse": "Detailed about courses"
    }
 }

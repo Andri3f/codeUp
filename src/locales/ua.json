@@ -1,5 +1,8 @@
 {
    "titles": {
       "mainTitle": "Explore Our Top Development Courses"
+   },
+   "buttons": {
+      "detaildedAboutCourse": "Детально про курси"
    }
 }
