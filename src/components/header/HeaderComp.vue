@@ -1,9 +1,9 @@
 <template>
    <header class="header" ref="header">
       <div class="header__container">
-         <div class="header__logo" ref="logo">
+         <router-link class="header__logo" ref="logo">
             <img src="../../assets/img/logo.svg" alt="" />
-         </div>
+         </router-link>
          <nav class="header__menu menu-header" ref="menu">
             <ul class="menu-header__list">
                <li class="menu-header__item" ref="menuItem1">Educational Courses</li>
@@ -18,7 +18,7 @@
                </li>
             </ul>
          </nav>
-         <router-link :to="{ name: 'user' }" class="header__user-but"
+         <router-link :to="{ name: 'user' }" class="header__user-btn"
             ><font-awesome-icon :icon="['fas', 'user']"
          /></router-link>
          <RouterLink :to="{ name: 'register' }" class="header__login-btn" ref="registerBtn">Login/Register</RouterLink>
@@ -28,51 +28,19 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { onMounted, ref } from 'vue'
-import { gsap } from 'gsap'
-import 'animate.css'
-
-const header = ref(null)
-const logo = ref(null)
-const menu = ref(null)
-const menuItem1 = ref(null)
-const menuItem2 = ref(null)
-const menuItem3 = ref(null)
-const menuItem4 = ref(null)
-const loginBtn = ref(null)
-const registerBtn = ref(null)
-
-onMounted(() => {
-   gsap.from(header.value, { opacity: 0, duration: 1 })
-   gsap.from(logo.value, { opacity: 0, x: -30, duration: 1.5, delay: 0.5 })
-   gsap.from(menu.value, { opacity: 0, y: -50, duration: 1.5, delay: 1 })
-
-   gsap.from(menuItem1.value, { opacity: 0, x: -50, duration: 1, delay: 1.5 })
-   gsap.from(menuItem2.value, { opacity: 0, x: -50, duration: 1, delay: 1.7 })
-   gsap.from(menuItem3.value, { opacity: 0, x: -50, duration: 1, delay: 1.9 })
-   gsap.from(menuItem4.value, { opacity: 0, x: -50, duration: 1, delay: 2.1 })
-
-   gsap.to(loginBtn.value, {
-      scale: 1.1,
-      yoyo: true,
-      repeat: -1,
-      duration: 0.5,
-      ease: 'power1.inOut',
-   })
-
-   gsap.to(registerBtn.value, {
-      scale: 1.1,
-      yoyo: true,
-      repeat: -1,
-      duration: 0.5,
-      ease: 'power1.inOut',
-   })
-})
 </script>
 
 <style lang="scss" scoped>
 .header {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   opacity: 0;
+   transition: opacity 1s ease;
+
    &__container {
+      min-height: 60px;
       display: grid;
       gap: 15px;
       align-items: center;
@@ -82,34 +50,46 @@ onMounted(() => {
    &__logo {
       width: 43px;
       height: 43px;
+      transform: translateX(-20px);
+      opacity: 0;
+      transition:
+         transform 0.8s ease,
+         opacity 0.8s ease;
+      transition-delay: 0.2s;
+
       img {
          width: 100%;
       }
    }
-   &__user-but {
-      font-size: 20px;
-      transition: all 0.3s ease 0s;
-      @media (any-hover: hover) {
-         &:hover {
-            opacity: 0.8;
-            transform: scale(1.1);
-         }
-      }
+
+   &__user-btn,
+   &__login-btn {
+      transform: translateY(-20px);
+      opacity: 0;
+      transition:
+         transform 0.8s ease,
+         opacity 0.8s ease;
    }
+
+   &__user-btn {
+      font-size: 20px;
+      transition: all 0.4s ease;
+   }
+
    &__login-btn {
       background-color: #234c5c;
       border-radius: 12px;
       line-height: 1.2;
       padding: 10px 20px;
-      transition: all 0.3s ease-in-out;
+
       @media (any-hover: hover) {
          &:hover {
-            @apply animate__animated animate__heartBeat;
             background-color: #1b3a47;
          }
       }
    }
 }
+
 .menu-header {
    &__list {
       display: flex;
@@ -121,13 +101,17 @@ onMounted(() => {
    }
 
    &__item {
+      transform: translateY(-20px);
+      opacity: 0;
       transition:
-         transform 0.3s ease,
-         color 0.3s ease;
+         transform 0.8s ease,
+         opacity 0.8s ease;
+      transition-delay: 0.4s;
       position: relative;
+
       &::before {
          content: '';
-         transition: height 0.2s ease 0s;
+         transition: height 0.3s ease;
          position: absolute;
          width: 100%;
          left: 0;
@@ -135,11 +119,53 @@ onMounted(() => {
          height: 0;
          background-color: #fff;
       }
-      &:hover {
-         @apply animate__animated animate__bounceIn;
-         &::before {
-            height: 2px;
+      @media (any-hover: hover) {
+         &:hover {
+            &::before {
+               height: 2px;
+            }
          }
+      }
+   }
+}
+
+.loaded {
+   .header {
+      opacity: 1;
+
+      &__logo {
+         transform: translateX(0);
+         opacity: 1;
+      }
+
+      .menu-header__item {
+         transform: translateY(0);
+         opacity: 1;
+      }
+
+      .menu-header__item:nth-child(1) {
+         transition-delay: 0.4s;
+      }
+      .menu-header__item:nth-child(2) {
+         transition-delay: 0.5s;
+      }
+      .menu-header__item:nth-child(3) {
+         transition-delay: 0.6s;
+      }
+      .menu-header__item:nth-child(4) {
+         transition-delay: 0.7s;
+      }
+
+      &__user-btn {
+         transform: translateY(0);
+         opacity: 1;
+         transition-delay: 1s;
+      }
+
+      &__login-btn {
+         transform: translateY(0);
+         opacity: 1;
+         transition-delay: 1.1s;
       }
    }
 }
