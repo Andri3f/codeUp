@@ -6,7 +6,7 @@
       </div>
       <div class="form-group">
          <input v-model="userData.mail" type="email" id="mail" class="form-input" />
-         <label for="mail" class="form-label">Mail</label>
+         <label for="mail" class="form-label">Email</label>
       </div>
       <div class="form-group">
          <input v-model="userData.pass" type="password" id="pass" class="form-input" />
@@ -17,12 +17,12 @@
          <label for="passConfirm" class="form-label">Confirm Password</label>
       </div>
       <button @click="onRegister" class="form-button">Register</button>
-      <RouterLink :to="{ name: 'login' }" class="form-link">You have account? Login </RouterLink>
+      <RouterLink :to="{ name: 'login' }" class="form-link">You have an account? Login</RouterLink>
    </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { reactive } from 'vue'
 import axios from 'axios'
 
@@ -32,6 +32,8 @@ const userData = reactive({
    pass: '',
    passConfirm: '',
 })
+
+const router = useRouter()
 
 async function onRegister() {
    if (userData.pass !== userData.passConfirm) {
@@ -45,9 +47,13 @@ async function onRegister() {
          email: userData.mail,
          password: userData.pass,
       })
-      alert(response.data.message)
+      const { token, message } = response.data
+      alert(message)
+      localStorage.setItem('authToken', token)
+      router.push({ name: 'user' })
    } catch (error) {
-      alert('Registration failed: ' + error.response.data.message)
+      const errorMessage = error.response ? error.response.data.message : 'Registration failed: unknown error'
+      alert(errorMessage)
    }
 }
 </script>

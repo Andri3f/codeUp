@@ -24,12 +24,14 @@
 <script setup>
 import { reactive } from 'vue'
 import axios from 'axios'
-
+import { useRouter } from 'vue-router'
 const userData = reactive({
    mail: '',
    pass: '',
    passConfirm: '',
 })
+
+const router = useRouter()
 
 async function onLogin() {
    if (userData.pass !== userData.passConfirm) {
@@ -44,6 +46,7 @@ async function onLogin() {
 
       const { token } = response.data
       localStorage.setItem('authToken', token)
+      router.push({ name: 'user' })
       alert('Login successful!')
    } catch (error) {
       alert('Login failed: ' + error.response.data.message)

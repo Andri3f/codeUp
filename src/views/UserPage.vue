@@ -14,8 +14,12 @@
 
 <script setup>
 import MainMasterPage from '../masterPages/MainMasterPage.vue'
-
-function onLogout() {}
+import { useRouter } from 'vue-router'
+const router = useRouter()
+function onLogout() {
+   localStorage.removeItem('authToken')
+   router.push({ name: 'home' })
+}
 
 function addTwoFactorAuth() {}
 </script>

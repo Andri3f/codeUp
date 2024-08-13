@@ -16,7 +16,11 @@ userRoutes.post('/register', validateRequest(userSchema), async (req, res) => {
       const { name, email, password } = req.body
       const newUser = new User({ name, email, password })
       await newUser.save()
-      res.status(201).json({ message: 'User registered successfully!' })
+
+      const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+      await LoginUser.findOneAndUpdate({ email }, { token }, { upsert: true })
+
+      res.status(201).json({ message: 'User registered successfully!', token })
    } catch (err) {
       console.error('Error registering user:', err)
       res.status(500).json({ message: 'Error registering user', error: err.message })
