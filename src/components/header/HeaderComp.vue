@@ -21,7 +21,9 @@
          <router-link :to="{ name: 'user' }" class="header__user-btn"
             ><font-awesome-icon :icon="['fas', 'user']"
          /></router-link>
-         <RouterLink :to="{ name: 'register' }" class="header__login-btn" ref="registerBtn">Login/Register</RouterLink>
+         <RouterLink :to="{ name: 'register' }" class="header__login-btn button" ref="registerBtn"
+            >Login/Register</RouterLink
+         >
       </div>
    </header>
 </template>
@@ -81,7 +83,6 @@ import { RouterLink } from 'vue-router'
       border-radius: 12px;
       line-height: 1.2;
       padding: 10px 20px;
-
       @media (any-hover: hover) {
          &:hover {
             background-color: #1b3a47;
