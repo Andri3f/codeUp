@@ -1,6 +1,6 @@
 <template>
    <main-master-page>
-      <main-section :coursesList="coursesData" />
+      <main-section :coursesList="coursesData.mainCourses" />
    </main-master-page>
 </template>
 

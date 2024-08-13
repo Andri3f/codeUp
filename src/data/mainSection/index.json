@@ -3,7 +3,7 @@
       {
          "id": "mlsldlvl435mllg3",
          "tilte": "FrontEnd Development",
-         "imgSrc": "@/assets/img/home/laptop01.png",
+         "imgSrc": "../../assets/img/home/laptop01.png",
          "courseInfo": [
             { "title": "topics 40" },
             { "title": "duration: 6 mounth" },
@@ -16,7 +16,7 @@
       {
          "id": "jljd4lb6nkl34o94",
          "tilte": "Backend Development",
-         "imgSrc": "@/assets/img/home/laptop02.png",
+         "imgSrc": "../../assets/img/home/laptop02.png",
          "courseInfo": [
             { "title": "topics 50" },
             { "title": "duration: 7 mounth" },
