@@ -1,7 +1,7 @@
 <template>
    <header class="header" ref="header">
       <div class="header__container">
-         <router-link class="header__logo" ref="logo">
+         <router-link :to="{ name: 'home' }" class="header__logo">
             <img src="../../assets/img/logo.svg" alt="" />
          </router-link>
          <nav class="header__menu menu-header" ref="menu">
