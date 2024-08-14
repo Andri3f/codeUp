@@ -29,6 +29,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.2",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7",
     "pinia": "^2.1.7",
     "vue": "^3.4.37",
     "vue-emotion": "^0.4.29",

@@ -1,6 +1,8 @@
 import { createServer as createViteServer } from 'vite'
 import { errorHandler } from '../error/errorHandler.js'
 import userRoutes from '../event/userRoutes.js'
+import uploadAvatarRoute from '../event/uploadAvatarRouter.js'
+import avatarRoutes from '../event/uploadAvatarRouter.js'
 
 export async function setupMiddlewares(app) {
    const vite = await createViteServer({
@@ -8,6 +10,8 @@ export async function setupMiddlewares(app) {
    })
 
    app.use('/api', userRoutes)
+   app.use('/api', uploadAvatarRoute)
+   app.use('/api', avatarRoutes)
 
    app.use(vite.middlewares)
 

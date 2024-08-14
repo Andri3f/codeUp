@@ -19,8 +19,10 @@
             </ul>
          </nav>
          <router-link v-if="isUser" :to="{ name: 'user' }" class="header__user-btn">
-            <font-awesome-icon :icon="['fas', 'user']" />
+            <img v-if="userAvatar" :src="userAvatar" alt="User Avatar" class="header__user-avatar" />
+            <font-awesome-icon v-else :icon="['fas', 'user']" />
          </router-link>
+
          <router-link v-else :to="{ name: 'register' }" class="header__login-btn button" ref="registerBtn">
             Login/Register
          </router-link>
@@ -52,6 +54,27 @@ onMounted(async () => {
       }
    } else {
       isAuthenticated.value = false
+   }
+})
+
+const userAvatar = ref(null)
+
+onMounted(async () => {
+   const token = localStorage.getItem('authToken')
+   if (token) {
+      try {
+         const response = await axios.get('/api/auth/user', {
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         })
+         console.log('Response data:', response.data)
+         const avatarFileName = response.data.avatar
+         userAvatar.value = `${window.location.origin}/uploads/${avatarFileName}`
+         console.log('Avatar URL:', userAvatar.value)
+      } catch (err) {
+         console.error('Error fetching user avatar:', err)
+      }
    }
 })
 </script>
@@ -195,5 +218,11 @@ onMounted(async () => {
          transition-delay: 1.1s;
       }
    }
+}
+
+.header__user-avatar {
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
 }
 </style>
