@@ -22,7 +22,7 @@
 <script setup>
 import { defineProps } from 'vue'
 import { getImagePath } from '../../localScript/functions/index'
-// Оголошення пропсів
+
 const props = defineProps({
    coursesList: {
       type: Array,
