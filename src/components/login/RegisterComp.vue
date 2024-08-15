@@ -1,22 +1,22 @@
 <template>
    <div class="form-container">
       <div class="form-group">
-         <input v-model="userData.name" type="text" id="name" class="form-input" />
+         <input id="name" v-model="userData.name" type="text" class="form-input" />
          <label for="name" class="form-label">Name</label>
       </div>
       <div class="form-group">
-         <input v-model="userData.mail" type="email" id="mail" class="form-input" />
+         <input id="mail" v-model="userData.mail" type="email" class="form-input" />
          <label for="mail" class="form-label">Email</label>
       </div>
       <div class="form-group">
-         <input v-model="userData.pass" type="password" id="pass" class="form-input" />
+         <input id="pass" v-model="userData.pass" type="password" class="form-input" />
          <label for="pass" class="form-label">Password</label>
       </div>
       <div class="form-group">
-         <input v-model="userData.passConfirm" type="password" id="passConfirm" class="form-input" />
+         <input id="passConfirm" v-model="userData.passConfirm" type="password" class="form-input" />
          <label for="passConfirm" class="form-label">Confirm Password</label>
       </div>
-      <button @click="registerAction" class="form-button">Register</button>
+      <button class="form-button" @click="registerAction">Register</button>
       <RouterLink :to="{ name: 'login' }" class="form-link">You have an account? Login</RouterLink>
    </div>
 </template>

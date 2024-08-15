@@ -8,8 +8,10 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
 async function createServer() {
    const app = express()
+
    app.use(
       cors({
          exposedHeaders: ['Authorization'],
@@ -20,7 +22,9 @@ async function createServer() {
 
    await connectDB()
    await setupMiddlewares(app)
-   app.use('/uploads', express.static('uploads'))
+
+   app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
    app.listen(3000, () => {
       console.log('Server is running on http://localhost:3000')
    })

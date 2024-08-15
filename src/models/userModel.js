@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
    name: { type: String, required: true, minlength: 3 },
    email: { type: String, required: true, unique: true },
    password: { type: String, required: true, minlength: 6 },
+   phoneNumber: { type: String, default: '' },
+   avatar: { type: String, default: '' },
+   token: { type: String },
+   lastLogin: { type: Date },
 })
 
 userSchema.pre('save', async function (next) {
@@ -15,4 +19,5 @@ userSchema.pre('save', async function (next) {
 })
 
 const User = mongoose.model('User', userSchema)
-export default User
+
+export { User }

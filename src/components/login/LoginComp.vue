@@ -5,51 +5,45 @@
          <label for="name" class="form-label">Name</label>
       </div> -->
       <div class="form-group">
-         <input v-model="userData.mail" type="email" id="mail" class="form-input" />
+         <input id="mail" v-model="userData.mail" type="email" class="form-input" />
          <label for="mail" class="form-label">Email</label>
       </div>
       <div class="form-group">
-         <input v-model="userData.pass" type="password" id="pass" class="form-input" />
+         <input id="pass" v-model="userData.pass" type="password" class="form-input" />
          <label for="pass" class="form-label">Password</label>
       </div>
       <div class="form-group">
-         <input v-model="userData.passConfirm" type="password" id="passConfirm" class="form-input" />
+         <input id="passConfirm" v-model="userData.passConfirm" type="password" class="form-input" />
          <label for="passConfirm" class="form-label">Confirm Password</label>
       </div>
-      <button @click="onLogin" class="form-button">Login</button>
+      <button class="form-button" @click="loginAction">Login</button>
       <RouterLink :to="{ name: 'register' }" class="form-link">Don't have an account? Register</RouterLink>
    </div>
 </template>
 
 <script setup>
 import { reactive } from 'vue'
-import axios from 'axios'
+import { useUsersStore } from '@/stores/users'
 import { useRouter } from 'vue-router'
+const usersStore = useUsersStore()
+const router = useRouter()
+const { onLogin } = usersStore
 const userData = reactive({
    mail: '',
    pass: '',
    passConfirm: '',
 })
 
-const router = useRouter()
-
-async function onLogin() {
+const loginAction = async () => {
    if (userData.pass !== userData.passConfirm) {
       alert('Passwords do not match!')
       return
    }
-   try {
-      const response = await axios.post('http://localhost:3000/api/login', {
-         email: userData.mail,
-         password: userData.pass,
-      })
 
-      const { token } = response.data
-      localStorage.setItem('authToken', token)
+   const { success, message } = await usersStore.onLogin(userData)
+   alert(message)
+   if (success) {
       router.push({ name: 'user' })
-      alert('Login successful!')
-   } catch (error) {
-      alert('Login failed: ' + error.response.data.message)
    }
 }
 </script>

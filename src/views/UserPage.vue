@@ -3,44 +3,51 @@
       <section class="user-page">
          <div class="user-page__container">
             <h1 class="user-page__title">User Profile Settings</h1>
-            <form @submit.prevent="uploadAvatar" enctype="multipart/form-data" class="user-page__form">
+            <form enctype="multipart/form-data" class="user-page__form" @submit.prevent="updateProfile">
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Name</span>
-                  <input type="text" class="user-page__input" placeholder="Enter your name" />
+                  <input v-model="name" type="text" class="user-page__input" placeholder="Enter your name" />
                </label>
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Email</span>
-                  <input type="email" class="user-page__input" placeholder="Enter your email" />
+                  <input v-model="email" type="email" class="user-page__input" placeholder="Enter your email" />
                </label>
                <label class="user-page__label">
                   <span class="user-page__label-text">Add Phone Number</span>
-                  <input type="tel" class="user-page__input" placeholder="Enter your phone number" />
+                  <input
+                     v-model="phoneNumber"
+                     type="tel"
+                     class="user-page__input"
+                     placeholder="Enter your phone number"
+                  />
                </label>
 
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Avatar</span>
-                  <input type="file" @change="onFileSelected" accept="image/*" class="user-page__file-input" />
+                  <input accept="image/*" class="user-page__file-input" type="file" @change="onFileSelected" />
                </label>
-               <button type="submit" class="user-page__button">Upload Avatar</button>
+               <button type="submit" class="user-page__button">Update Profile</button>
             </form>
 
-            <button @click="addTwoFactorAuth" class="user-page__button user-page__button--secondary">
+            <button class="user-page__button user-page__button--secondary" @click="addTwoFactorAuth">
                Two-Factor Authentication
             </button>
-            <button @click="onLogout" class="user-page__button user-page__button--logout">Log Out</button>
+            <button class="user-page__button user-page__button--logout" @click="onLogout">Log Out</button>
          </div>
       </section>
    </main-master-page>
 </template>
 
 <script setup>
-import MainMasterPage from '../masterPages/MainMasterPage.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 const router = useRouter()
 const selectedFile = ref(null)
+const name = ref('')
+const email = ref('')
+const phoneNumber = ref('')
 
 function onLogout() {
    localStorage.removeItem('authToken')
@@ -49,28 +56,27 @@ function onLogout() {
 
 function addTwoFactorAuth() {}
 
-function onFileSelected(event) {
-   selectedFile.value = event.target.files[0]
-}
+function updateProfile() {
+   const token = localStorage.getItem('authToken')
+   const data = {
+      name: name.value,
+      email: email.value,
+      phoneNumber: phoneNumber.value,
+   }
 
-async function uploadAvatar() {
-   if (!selectedFile.value) return
-
-   const formData = new FormData()
-   formData.append('avatar', selectedFile.value)
-
-   try {
-      const response = await axios.post('/api/upload-avatar', formData, {
+   axios
+      .post('http://localhost:3000/api/update-profile', data, {
          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
          },
       })
-
-      console.log('Avatar uploaded:', response.data)
-   } catch (err) {
-      console.error('Error uploading avatar:', err)
-   }
+      .then((response) => {
+         console.log('Profile updated:', response.data)
+      })
+      .catch((err) => {
+         console.error('Error updating profile:', err)
+      })
 }
 </script>
 

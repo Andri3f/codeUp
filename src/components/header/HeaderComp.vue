@@ -1,19 +1,19 @@
 <template>
-   <header class="header" ref="header">
+   <header ref="header" class="header">
       <div class="header__container">
          <router-link :to="{ name: 'home' }" class="header__logo">
             <img src="../../assets/img/logo.svg" alt="" />
          </router-link>
-         <nav class="header__menu menu-header" ref="menu">
+         <nav ref="menu" class="header__menu menu-header">
             <ul class="menu-header__list">
-               <li class="menu-header__item" ref="menuItem1">Educational Courses</li>
-               <li class="menu-header__item" ref="menuItem2">
+               <li ref="menuItem1" class="menu-header__item">Educational Courses</li>
+               <li ref="menuItem2" class="menu-header__item">
                   <router-link :to="{ name: 'news' }">News</router-link>
                </li>
-               <li class="menu-header__item" ref="menuItem3">
+               <li ref="menuItem3" class="menu-header__item">
                   <router-link :to="{ name: 'contacts' }">Contacts</router-link>
                </li>
-               <li class="menu-header__item" ref="menuItem4">
+               <li ref="menuItem4" class="menu-header__item">
                   <button>Languages</button>
                </li>
             </ul>
@@ -23,7 +23,7 @@
             <font-awesome-icon v-else :icon="['fas', 'user']" />
          </router-link>
 
-         <router-link v-else :to="{ name: 'register' }" class="header__login-btn button" ref="registerBtn">
+         <router-link v-else ref="registerBtn" :to="{ name: 'register' }" class="header__login-btn button">
             Login/Register
          </router-link>
       </div>
@@ -33,6 +33,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { getImagePath } from '@/localScript/functions'
 
 const isUser = computed(() => {
    return localStorage.getItem('authToken')
@@ -47,6 +48,7 @@ onMounted(async () => {
                Authorization: `Bearer ${token}`,
             },
          })
+
          isAuthenticated.value = response.data.isAuthenticated
       } catch (err) {
          console.error('Error checking authentication status:', err)
@@ -60,7 +62,7 @@ onMounted(async () => {
 const userAvatar = ref(null)
 
 onMounted(async () => {
-   const token = localStorage.getItem('authToken')
+   const token = isUser.value
    if (token) {
       try {
          const response = await axios.get('/api/auth/user', {
@@ -68,10 +70,12 @@ onMounted(async () => {
                Authorization: `Bearer ${token}`,
             },
          })
-         console.log('Response data:', response.data)
+
          const avatarFileName = response.data.avatar
          userAvatar.value = `${window.location.origin}/uploads/${avatarFileName}`
          console.log('Avatar URL:', userAvatar.value)
+         console.log(avatarFileName)
+         console.log('API Response:', response.data)
       } catch (err) {
          console.error('Error fetching user avatar:', err)
       }
