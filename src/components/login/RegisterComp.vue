@@ -23,8 +23,11 @@
 
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import axios from 'axios'
+import { useUsersStore } from "../../stores/users.js";
+import { storeToRefs } from 'pinia';
+const usersStore = useUsersStore()
 
 const userData = reactive({
    name: '',
@@ -60,6 +63,7 @@ async function onRegister() {
 
 <style lang="scss" scoped>
 .form-container {
+   color: #000;
    max-width: 400px;
    margin: 0 auto;
    padding: 20px;
