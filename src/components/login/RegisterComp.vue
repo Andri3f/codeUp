@@ -16,18 +16,18 @@
          <input v-model="userData.passConfirm" type="password" id="passConfirm" class="form-input" />
          <label for="passConfirm" class="form-label">Confirm Password</label>
       </div>
-      <button @click="onRegister" class="form-button">Register</button>
+      <button @click="registerAction" class="form-button">Register</button>
       <RouterLink :to="{ name: 'login' }" class="form-link">You have an account? Login</RouterLink>
    </div>
 </template>
 
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
-import { onMounted, reactive } from 'vue'
-import axios from 'axios'
-import { useUsersStore } from "../../stores/users.js";
-import { storeToRefs } from 'pinia';
+import { reactive } from 'vue'
+import { useUsersStore } from '../../stores/users.js'
 const usersStore = useUsersStore()
+const { onRegister } = usersStore
+const router = useRouter()
 
 const userData = reactive({
    name: '',
@@ -36,27 +36,15 @@ const userData = reactive({
    passConfirm: '',
 })
 
-const router = useRouter()
-
-async function onRegister() {
+const registerAction = async () => {
    if (userData.pass !== userData.passConfirm) {
       alert('Passwords do not match!')
       return
    }
-
-   try {
-      const response = await axios.post('http://localhost:3000/api/register', {
-         name: userData.name,
-         email: userData.mail,
-         password: userData.pass,
-      })
-      const { token, message } = response.data
-      alert(message)
-      localStorage.setItem('authToken', token)
+   const { success, message } = await usersStore.onRegister(userData)
+   alert(message)
+   if (success) {
       router.push({ name: 'user' })
-   } catch (error) {
-      const errorMessage = error.response ? error.response.data.message : 'Registration failed: unknown error'
-      alert(errorMessage)
    }
 }
 </script>
