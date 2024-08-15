@@ -39,6 +39,7 @@
 </template>
 
 <script setup>
+import MainMasterPage from '../masterPages/MainMasterPage.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -79,7 +80,6 @@ function updateProfile() {
       })
 }
 </script>
-
 <style lang="scss" scoped>
 .user-page {
    display: flex;
