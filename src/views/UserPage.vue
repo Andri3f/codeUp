@@ -57,12 +57,10 @@ const phoneNumber = ref('')
 
 onMounted(async () => {
    try {
-      const baseURL =
-         process.env.NODE_ENV === 'production' ? 'https://main--mybestcodeup.netlify.app' : 'http://localhost:3000'
+      const baseURL = import.meta.env.MODE === 'production' ? import.meta.env.VITE_BASE_URL : 'http://localhost:3000'
 
-      axios
       axios.defaults.baseURL = baseURL
-      const response = await axios.get('http://localhost:3000/api/user-profile', {
+      const response = await axios.get('/api/user-profile', {
          headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
          },
@@ -97,14 +95,12 @@ function updateProfile() {
    if (selectedFile.value) {
       formData.append('avatar', selectedFile.value)
    }
-   const baseURL =
-      process.env.NODE_ENV === 'production' ? 'https://main--mybestcodeup.netlify.app' : 'http://localhost:3000'
+   const baseURL = import.meta.env.MODE === 'production' ? import.meta.env.VITE_BASE_URL : 'http://localhost:3000'
 
-   axios
    axios.defaults.baseURL = baseURL
 
    axios
-      .post('http://localhost:3000/api/update-profile', formData, {
+      .post('/api/update-profile', formData, {
          headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
@@ -286,16 +282,9 @@ function updateProfile() {
          background-color 0.3s,
          border-color 0.3s;
    }
-
    .user-page__file-label:hover {
       background-color: #34495e;
       border-color: #3498db;
-   }
-
-   .user-page__file-label-text {
-      font-size: 14px;
-      color: #bdc3c7;
-      margin: 0;
    }
 }
 </style>

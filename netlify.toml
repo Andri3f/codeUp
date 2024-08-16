@@ -7,3 +7,5 @@
   to = "/index.html"
   status = 200
 
+[build.environment]
+  VITE_BASE_URL = "https://main--mybestcodeup.netlify.app"

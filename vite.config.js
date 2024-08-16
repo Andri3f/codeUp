@@ -10,9 +10,9 @@ export default defineConfig({
       alias: {
          '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
-      // 'process.env': {
-      //    VITE_BASE_URL: process.env.VITE_BASE_URL || 'https://main--mybestcodeup.netlify.app',
-      // },
+      'process.env': {
+         VITE_BASE_URL: process.env.VITE_BASE_URL || 'https://main--mybestcodeup.netlify.app',
+      },
    },
    build: {
       outDir: 'dist',

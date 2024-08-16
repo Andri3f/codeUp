@@ -17,10 +17,33 @@ const __dirname = path.dirname(__filename)
 
 const userRoutes = express.Router()
 
+const baseURL = process.env.BASE_URL || 'https://main--mybestcodeup.netlify.app'
+
+const storage = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+   },
+   filename: function (req, file, cb) {
+      cb(null, `${Date.now()}-${file.originalname}`)
+   },
+})
+
+const upload = multer({ storage: storage })
+
+function deleteFile(filePath) {
+   const fullPath = path.join(__dirname, '../../uploads', filePath)
+   fs.unlink(fullPath, (err) => {
+      if (err) {
+         console.error('Error deleting file:', err)
+      }
+   })
+}
+
 userRoutes.post('/register', validateRequest(userSchema), async (req, res) => {
    try {
       const { name, email, password } = req.body
-      const newUser = new User({ name, email, password })
+      const hashedPassword = await bcrypt.hash(password, 10)
+      const newUser = new User({ name, email, password: hashedPassword })
       await newUser.save()
 
       const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
@@ -61,25 +84,6 @@ userRoutes.post('/login', validateRequest(loginSchema), async (req, res) => {
    }
 })
 
-const storage = multer.diskStorage({
-   destination: function (req, file, cb) {
-      cb(null, 'uploads/')
-   },
-   filename: function (req, file, cb) {
-      cb(null, `${Date.now()}-${file.originalname}`)
-   },
-})
-
-const upload = multer({ storage: storage })
-function deleteFile(filePath) {
-   const fullPath = path.join(__dirname, '../../uploads', filePath)
-   fs.unlink(fullPath, (err) => {
-      if (err) {
-         console.error('Error deleting file:', err)
-      }
-   })
-}
-
 userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => {
    const token = req.headers.authorization?.split(' ')[1]
 
@@ -105,12 +109,7 @@ userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => 
             deleteFile(user.avatar.split('/uploads/')[1])
          }
 
-         const baseURL =
-            process.env.NODE_ENV === 'development' ? process.env.BASE_URL : 'https://main--mybestcodeup.netlify.app/'
-         console.log('BASE_URL:', baseURL)
-         console.log('Filename:', req.file.filename)
          user.avatar = `${baseURL}/uploads/${req.file.filename}`
-         console.log('User Avatar URL:', user.avatar)
       }
 
       await user.save()
