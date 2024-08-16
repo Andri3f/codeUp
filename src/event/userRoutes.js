@@ -106,8 +106,10 @@ userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => 
          }
 
          const baseURL = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : 'http://localhost:3000'
-
+         console.log('BASE_URL:', baseURL)
+         console.log('Filename:', req.file.filename)
          user.avatar = `${baseURL}/uploads/${req.file.filename}`
+         console.log('User Avatar URL:', user.avatar)
       }
 
       await user.save()
