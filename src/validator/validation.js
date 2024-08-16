@@ -6,6 +6,8 @@ export const userSchema = Joi.object({
 })
 
 export const loginSchema = Joi.object({
-   email: Joi.string().email().required(),
+   email: Joi.alternatives()
+      .try(Joi.string().email(), Joi.string().pattern(/^\+?[0-9]{10,15}$/))
+      .required(),
    password: Joi.string().min(6).required(),
 })

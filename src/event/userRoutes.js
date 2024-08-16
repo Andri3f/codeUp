@@ -30,7 +30,7 @@ userRoutes.post('/register', validateRequest(userSchema), async (req, res) => {
 userRoutes.post('/login', validateRequest(loginSchema), async (req, res) => {
    try {
       const { email, password } = req.body
-      const user = await User.findOne({ email })
+      let user = (await User.findOne({ email })) || (await User.findOne({ phoneNumber: email }))
 
       if (!user) {
          return res.status(404).json({ message: 'User not found' })

@@ -6,26 +6,60 @@
             <form enctype="multipart/form-data" class="user-page__form" @submit.prevent="updateProfile">
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Name</span>
-                  <input v-model="name" type="text" class="user-page__input" placeholder="Enter your name" />
+                  <input
+                     v-model="name"
+                     type="text"
+                     class="user-page__input"
+                     placeholder="Enter your name"
+                     :disabled="!isEditingName"
+                  />
+                  <button type="button" class="user-page__button user-page__button--edit" @click="isEditingName = true">
+                     Edit
+                  </button>
                </label>
+
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Email</span>
-                  <input v-model="email" type="email" class="user-page__input" placeholder="Enter your email" />
+                  <input
+                     v-model="email"
+                     type="email"
+                     class="user-page__input"
+                     placeholder="Enter your email"
+                     :disabled="!isEditingEmail"
+                  />
+                  <button
+                     type="button"
+                     class="user-page__button user-page__button--edit"
+                     @click="isEditingEmail = true"
+                  >
+                     Edit
+                  </button>
                </label>
+
                <label class="user-page__label">
-                  <span class="user-page__label-text">Add Phone Number</span>
+                  <span class="user-page__label-text">Phone Number</span>
                   <input
                      v-model="phoneNumber"
                      type="tel"
                      class="user-page__input"
-                     placeholder="Enter your phone number"
+                     :placeholder="phoneNumber ? '' : 'Enter your phone number'"
+                     :disabled="!isEditingPhoneNumber"
+                     @focus="isEditingPhoneNumber = true"
                   />
+                  <button
+                     type="button"
+                     class="user-page__button user-page__button--edit"
+                     @click="isEditingPhoneNumber = true"
+                  >
+                     Edit
+                  </button>
                </label>
 
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Avatar</span>
                   <input accept="image/*" class="user-page__file-input" type="file" @change="onFileSelected" />
                </label>
+
                <button type="submit" class="user-page__button">Update Profile</button>
             </form>
 
@@ -40,7 +74,7 @@
 
 <script setup>
 import MainMasterPage from '../masterPages/MainMasterPage.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
@@ -49,10 +83,44 @@ const selectedFile = ref(null)
 const name = ref('')
 const email = ref('')
 const phoneNumber = ref('')
+const isEditingName = ref(false)
+const isEditingEmail = ref(false)
+const isEditingPhoneNumber = ref(false)
+
+onMounted(() => {
+   const storedUser = localStorage.getItem('userProfile')
+   if (storedUser) {
+      const user = JSON.parse(storedUser)
+      name.value = user.name
+      email.value = user.email
+      phoneNumber.value = user.phoneNumber || ''
+   } else {
+      axios
+         .get('http://localhost:3000/api/user-profile', {
+            headers: {
+               Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            },
+         })
+         .then((response) => {
+            const user = response.data
+            name.value = user.name
+            email.value = user.email
+            phoneNumber.value = user.phoneNumber || ''
+            // localStorage.setItem('userProfile', JSON.stringify(user))
+         })
+         .catch((error) => {
+            console.error('Error fetching user profile:', error)
+         })
+   }
+})
 
 function onLogout() {
    localStorage.removeItem('authToken')
    router.push({ name: 'home' })
+}
+
+function onFileSelected(event) {
+   selectedFile.value = event.target.files[0]
 }
 
 function addTwoFactorAuth() {}
@@ -74,12 +142,23 @@ function updateProfile() {
       })
       .then((response) => {
          console.log('Profile updated:', response.data)
+         isEditingName.value = false
+         isEditingEmail.value = false
+         isEditingPhoneNumber.value = false
+         localStorage.setItem(
+            'userProfile',
+            JSON.stringify({
+               ...JSON.parse(localStorage.getItem('userProfile')),
+               ...data,
+            }),
+         )
       })
       .catch((err) => {
          console.error('Error updating profile:', err)
       })
 }
 </script>
+
 <style lang="scss" scoped>
 .user-page {
    display: flex;
@@ -187,6 +266,19 @@ function updateProfile() {
 
          &:hover {
             background-color: #c0392b;
+         }
+      }
+
+      .user-page__button--edit {
+         background-color: #f39c12;
+         color: #fff;
+         font-size: 14px;
+         padding: 8px 12px;
+         margin-top: 5px;
+         transition: background-color 0.3s;
+
+         &:hover {
+            background-color: #e67e22;
          }
       }
    }
