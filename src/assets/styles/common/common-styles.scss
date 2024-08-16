@@ -49,3 +49,10 @@ font-size: clamp(1.5rem, 0.937rem + 1.174vw, 2rem);
 line-height: 1.3;
 text-align: center;
 }
+.subtitile {
+   font-size: clamp(1.125rem, 0.937rem + 0.391vw, 1.25rem);
+   line-height: 1.3;
+   letter-spacing: 1.5px;
+   font-weight: 500;
+   margin-bottom: 20px;
+}

@@ -5,7 +5,7 @@
          <div class="master__items">
             <div class="master__item item-master" v-for="courseItem in coursesList" :key="courseItem.id">
                <div class="item-master__content">
-                  <h3 class="item-master__title">{{ courseItem.title }}</h3>
+                  <h3 class="item-master__title subtitile">{{ courseItem.title }}</h3>
                   <div class="item-master__image"><img :src="getImagePath(courseItem.imgSrc)" alt="" /></div>
                   <ul class="item-master__info">
                      <li class="item-master__item-info" v-for="(infoItem, index) in courseItem.courseInfo" :key="index">
@@ -41,15 +41,16 @@ const props = defineProps({
       text-align: center;
       font-size: clamp(1.438rem, 0.312rem + 2.348vw, 2.188rem);
       &:not(:last-child) {
-         margin-bottom: clamp(1.563rem, 0.155rem + 2.935vw, 2.5rem);
+         margin-bottom: clamp(2.5rem, 0.624rem + 3.914vw, 3.75rem);
       }
    }
    &__items {
       display: grid;
       gap: clamp(2.5rem, 0.624rem + 3.914vw, 3.75rem);
       grid-template-columns: repeat(2, 1fr);
-      @media (max-width: 767.98px) {
+      @media (max-width: 700px) {
          grid-template-columns: 1fr;
+         gap: 50px;
       }
    }
 }
@@ -61,7 +62,7 @@ const props = defineProps({
    flex-direction: column;
    align-items: center;
    text-align: center;
-   @media (max-width: 767.98px) {
+   @media (max-width: 700px) {
       width: 100%;
       max-width: 100%;
       margin: auto;
@@ -73,17 +74,33 @@ const props = defineProps({
       &:not(:last-child) {
          margin-bottom: clamp(1.125rem, 0.187rem + 1.957vw, 1.75rem);
       }
+      @media (max-width: 700px) {
+      }
    }
 
    &__title {
+      align-self: center;
+      letter-spacing: 3px;
+      color: #c8cdcf;
+      &:not(:last-child) {
+         margin-bottom: 20px;
+      }
    }
 
    &__image {
+      //align-self: start;
       &:not(:last-child) {
          margin-bottom: clamp(0.938rem, -0.001rem + 1.957vw, 1.563rem);
       }
+   position: relative;
+      padding-bottom: 81%;
+   @media (max-width: 700px){
+      padding-bottom: 90%;
+        
+   }
       img {
-         max-width: 100%;
+         //max-width: 100%;
+         position: absolute;width: 100%;height: 100%;top: 0;left: 0;
          object-fit: contain;
       }
    }
@@ -115,12 +132,12 @@ const props = defineProps({
       font-weight: 500;
       padding: clamp(0.938rem, 0.468rem + 0.978vw, 1.25rem) clamp(1.563rem, 1.093rem + 0.978vw, 1.875rem);
       &:not(:last-child) {
-         margin-bottom: clamp(0.625rem, -0.313rem + 1.957vw, 1.25rem);
+         margin-bottom: clamp(0.625rem, -0.313rem + 1.957vw, 1rem);
       }
    }
 
    &__price {
-      font-size: clamp(1.125rem, 0.468rem + 1.37vw, 1.563rem);
+      font-size: clamp(1.25rem, 0.468rem + 1.37vw, 1.563rem);
       font-weight: 600;
       color: #ffee6c;
       margin-top: 1rem;

@@ -2,7 +2,7 @@
    "mainCourses": [
       {
          "id": "mlsldlvl435mllg3",
-         "tilte": "FrontEnd Development",
+         "title": "FrontEnd Development",
          "imgSrc": "../../assets/img/home/laptop01.png",
          "courseInfo": [
             { "title": "topics 40" },
@@ -15,7 +15,7 @@
       },
       {
          "id": "jljd4lb6nkl34o94",
-         "tilte": "Backend Development",
+         "title": "Backend Development",
          "imgSrc": "../../assets/img/home/laptop02.png",
          "courseInfo": [
             { "title": "topics 50" },
@@ -25,6 +25,13 @@
          ],
          "buttonTitle": "Detailed about course",
          "price": 60
+      }
+   ],
+   "reasonsList": [
+      {
+         "id": "ldmmgdmg343g34hsgh",
+         "title": "Not a dry theory",
+         "description": ""
       }
    ]
 }
