@@ -28,67 +28,11 @@ const props = defineProps({
 })
 </script>
 
-//<style lang="scss" scoped>
-//.reaons {
-//		// .reaons__container
-//		&__container {
-//		}
-//		// .reaons__title
-//		&__title {
-//         &:not(:last-child) {
-//            margin-bottom: 60px;
-//         }
-//		}
-//		// .reaons__list
-//		&__list {
-//         display: grid;
-//         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr) );
-//         gap: 70px;
-//		}
-//}
-//.title {
-//}
-//.list-reasons {
-//		// .list-reasons__item
-//		&__item {
-//		}
-//}
-//.item-reason {
-//   display: flex;
-//   gap: 20px;
-//   align-items: start;
-//		// .item-reason__number
-//		&__number {
-//         position: relative;	
-//         display: flex;
-//         align-items: center;
-//         justify-content: center;
-//         flex:  0 0 50px;
-//         width: 50px;
-//         height: 50px;
-//         padding: 5px;
-//         border: 1px solid #234c5c;
-//         border-radius: 50%;
-         
-//		}
-//		// .item-reason__content
-//		&__content {
-//		}
-//		// .item-reason__title
-//		&__title {
-//         &:not(:last-child) {
-//            margin-bottom: clamp(1.563rem, 1.093rem + 0.978vw, 1.875rem);
-//         }
-//		}
-//		// .item-reason__text
-//		&__text {
-//         line-height: 1.5;
-//		}
-//}
 
 
 
-//</style>
+
+
 
 
 <style lang="scss" scoped>
@@ -143,7 +87,7 @@ const props = defineProps({
       width: 50px; 
       height: 50px;
       flex: 0 0 50px;
-      background-color: #1b3a47; 
+      background-color: #1e59a0; 
       color: #ffffff;
       font-weight: 700;
       border-radius: 50%;
