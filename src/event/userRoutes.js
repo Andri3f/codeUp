@@ -79,6 +79,8 @@ function deleteFile(filePath) {
       }
    })
 }
+const baseURL =
+   process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://main--mybestcodeup.netlify.app'
 
 userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => {
    const token = req.headers.authorization?.split(' ')[1]
@@ -105,11 +107,7 @@ userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => 
             deleteFile(user.avatar.split('/uploads/')[1])
          }
 
-         const baseURL = process.env.BASE_URL || 'https://main--mybestcodeup.netlify.app'
-         console.log('BASE_URL:', baseURL)
-         console.log('Filename:', req.file.filename)
          user.avatar = `${baseURL}/uploads/${req.file.filename}`
-         console.log('User Avatar URL:', user.avatar)
       }
 
       await user.save()
