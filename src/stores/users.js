@@ -10,7 +10,7 @@ export const useUsersStore = defineStore('users', () => {
 
          axios
          axios.defaults.baseURL = baseURL
-         const response = await axios.post('/api/register', {
+         const response = await axios.post('http://localhost:3000/api/register', {
             name,
             email: mail,
             password: pass,
@@ -31,7 +31,7 @@ export const useUsersStore = defineStore('users', () => {
 
          axios
          axios.defaults.baseURL = baseURL
-         const response = await axios.post('/api/login', {
+         const response = await axios.post('http://localhost:3000/api/login', {
             email: mail,
             password: pass,
          })
