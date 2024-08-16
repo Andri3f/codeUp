@@ -6,25 +6,12 @@
             <form enctype="multipart/form-data" class="user-page__form" @submit.prevent="updateProfile">
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Name</span>
-                  <input
-                     v-model="name"
-                     type="text"
-                     class="user-page__input"
-                     placeholder="Enter your name"
-                  
-                  />
-                 
+                  <input v-model="name" type="text" class="user-page__input" placeholder="Enter your name" />
                </label>
 
                <label class="user-page__label">
                   <span class="user-page__label-text">Change Email</span>
-                  <input
-                     v-model="email"
-                     type="email"
-                     class="user-page__input"
-                     placeholder="Enter your email"
-                  />
-                  
+                  <input v-model="email" type="email" class="user-page__input" placeholder="Enter your email" />
                </label>
 
                <label class="user-page__label">
@@ -34,10 +21,8 @@
                      type="tel"
                      class="user-page__input"
                      :placeholder="phoneNumber ? '' : 'Enter your phone number'"
-                     
                      @focus="isEditingPhoneNumber = true"
                   />
-                  
                </label>
 
                <label class="user-page__label">
@@ -69,37 +54,24 @@ const name = ref('')
 const email = ref('')
 const phoneNumber = ref('')
 
-onMounted(() => {
-   const storedUser = localStorage.getItem('userProfile')
-
-   if (storedUser) {
-      const user = JSON.parse(storedUser)
+onMounted(async () => {
+   try {
+      const response = await axios.get('http://localhost:3000/api/user-profile', {
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+         },
+      })
+      const user = response.data
       name.value = user.name
       email.value = user.email
       phoneNumber.value = user.phoneNumber || ''
-   } else {
-      axios
-         .get('http://localhost:3000/api/user-profile', {
-            headers: {
-               Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-            },
-         })
-         .then((response) => {
-            const user = response.data
-            name.value = user.name
-            email.value = user.email
-            phoneNumber.value = user.phoneNumber || ''
-             localStorage.setItem('userProfile', JSON.stringify(user))
-         })
-         .catch((error) => {
-            console.error('Error fetching user profile:', error)
-         })
+   } catch (error) {
+      console.error('Error fetching user profile:', error)
    }
 })
 
 function onLogout() {
    localStorage.removeItem('authToken')
-   localStorage.removeItem('userProfile')
    router.push({ name: 'home' })
 }
 
@@ -126,13 +98,6 @@ function updateProfile() {
       })
       .then((response) => {
          console.log('Profile updated:', response.data)
-         localStorage.setItem(
-            'userProfile',
-            JSON.stringify({
-               ...JSON.parse(localStorage.getItem('userProfile')),
-               ...data,
-            }),
-         )
       })
       .catch((err) => {
          console.error('Error updating profile:', err)

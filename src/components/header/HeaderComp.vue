@@ -33,7 +33,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
-import { getImagePath } from '@/localScript/functions'
 
 const isUser = computed(() => {
    return localStorage.getItem('authToken')
@@ -65,7 +64,7 @@ onMounted(async () => {
    const token = isUser.value
    if (token) {
       try {
-         const response = await axios.get('/api/auth/user', {
+         const response = await axios.get('/api/auth/user-avatar', {
             headers: {
                Authorization: `Bearer ${token}`,
             },
