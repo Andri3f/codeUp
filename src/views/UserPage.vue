@@ -92,6 +92,11 @@ function updateProfile() {
    if (selectedFile.value) {
       formData.append('avatar', selectedFile.value)
    }
+   const baseURL =
+      process.env.NODE_ENV === 'production' ? 'https://main--mybestcodeup.netlify.app' : 'http://localhost:3000'
+
+   axios
+   axios.defaults.baseURL = baseURL
 
    axios
       .post('/api/update-profile', formData, {
