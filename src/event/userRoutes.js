@@ -17,13 +17,10 @@ const __dirname = path.dirname(__filename)
 
 const userRoutes = express.Router()
 
-const baseURL = process.env.BASE_URL || 'https://main--mybestcodeup.netlify.app'
-
 userRoutes.post('/register', validateRequest(userSchema), async (req, res) => {
    try {
       const { name, email, password } = req.body
-      const hashedPassword = await bcrypt.hash(password, 10)
-      const newUser = new User({ name, email, password: hashedPassword })
+      const newUser = new User({ name, email, password })
       await newUser.save()
 
       const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
@@ -74,7 +71,6 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
-
 function deleteFile(filePath) {
    const fullPath = path.join(__dirname, '../../uploads', filePath)
    fs.unlink(fullPath, (err) => {
@@ -109,7 +105,12 @@ userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => 
             deleteFile(user.avatar.split('/uploads/')[1])
          }
 
+         const baseURL =
+            process.env.NODE_ENV === 'development' ? process.env.BASE_URL : 'https://main--mybestcodeup.netlify.app/'
+         console.log('BASE_URL:', baseURL)
+         console.log('Filename:', req.file.filename)
          user.avatar = `${baseURL}/uploads/${req.file.filename}`
+         console.log('User Avatar URL:', user.avatar)
       }
 
       await user.save()
