@@ -35,11 +35,14 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .master {
+   &:not(:last-child) {
+      margin-bottom: clamp(5.625rem, -0.004rem + 11.742vw, 9.375rem);
+   }
    &__container {
    }
    &__title {
       text-align: center;
-      font-size: clamp(1.438rem, 0.312rem + 2.348vw, 2.188rem);
+      font-size: clamp(1.7rem, 0.312rem + 2.348vw, 2.188rem);
       &:not(:last-child) {
          margin-bottom: clamp(2.5rem, 0.624rem + 3.914vw, 3.75rem);
       }
