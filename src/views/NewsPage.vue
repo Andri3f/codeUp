@@ -71,7 +71,7 @@ onMounted(() => {
 
 .item-news {
 
-      background-color: #2a2a2a; 
+       background-color: #1a1a1a; 
       border-radius: 8px;
 
       transition: transform 0.3s ease, box-shadow 0.3s ease;
