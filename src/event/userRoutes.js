@@ -17,10 +17,13 @@ const __dirname = path.dirname(__filename)
 
 const userRoutes = express.Router()
 
+const baseURL = process.env.BASE_URL || 'https://main--mybestcodeup.netlify.app'
+
 userRoutes.post('/register', validateRequest(userSchema), async (req, res) => {
    try {
       const { name, email, password } = req.body
-      const newUser = new User({ name, email, password })
+      const hashedPassword = await bcrypt.hash(password, 10)
+      const newUser = new User({ name, email, password: hashedPassword })
       await newUser.save()
 
       const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
@@ -71,6 +74,7 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
+
 function deleteFile(filePath) {
    const fullPath = path.join(__dirname, '../../uploads', filePath)
    fs.unlink(fullPath, (err) => {
@@ -79,8 +83,6 @@ function deleteFile(filePath) {
       }
    })
 }
-const baseURL =
-   process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://main--mybestcodeup.netlify.app'
 
 userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => {
    const token = req.headers.authorization?.split(' ')[1]
