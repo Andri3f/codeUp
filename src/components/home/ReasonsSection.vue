@@ -143,7 +143,7 @@ const props = defineProps({
       width: 50px; 
       height: 50px;
       flex: 0 0 50px;
-      background-color: #3498db; 
+      background-color: #1b3a47; 
       color: #ffffff;
       font-weight: 700;
       border-radius: 50%;
