@@ -57,7 +57,12 @@ const phoneNumber = ref('')
 
 onMounted(async () => {
    try {
-      const response = await axios.get('http://localhost:3000/api/user-profile', {
+      const baseURL =
+         process.env.NODE_ENV === 'production' ? 'https://main--mybestcodeup.netlify.app' : 'http://localhost:3000'
+
+      axios
+      axios.defaults.baseURL = baseURL
+      const response = await axios.get('/api/user-profile', {
          headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
          },
