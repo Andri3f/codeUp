@@ -195,7 +195,7 @@ function updateProfile() {
       }
 
       .user-page__file-input {
-         display: none; // Hide default file input
+         display: none;
       }
 
       .user-page__file-label-text {
