@@ -51,71 +51,119 @@ const registerAction = async () => {
 
 <style lang="scss" scoped>
 .form-container {
-   color: #000;
+   position: relative;
+   color: #f0f0f0;
    max-width: 400px;
-   margin: 0 auto;
-   padding: 20px;
-   background-color: #f9f9f9;
-   border-radius: 10px;
-   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   margin: 50px auto;
+   padding: 40px;
+   background-color: #2a2a2a;
+   border-radius: 20px;
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+   animation: fadeInUp 0.5s ease-out;
+}
+
+.form-container::before {
+   content: '';
+   position: absolute;
+   top: -5px;
+   left: -5px;
+   right: -5px;
+   bottom: -5px;
+   background: linear-gradient(45deg, #161313, #ffffff, #ffffff, #000000);
+   border-radius: 20px;
+   filter: blur(15px);
+   z-index: -1;
 }
 
 .form-group {
    position: relative;
-   margin-bottom: 20px;
+   margin-bottom: 25px;
 }
 
 .form-input {
    width: 100%;
-   padding: 10px;
+   padding: 12px;
    font-size: 16px;
-   border: 1px solid #ccc;
-   border-radius: 5px;
+   border: 2px solid #444;
+   border-radius: 8px;
    outline: none;
-   color: black;
+   background-color: #1e1e1e;
+   color: #f0f0f0;
+   transition:
+      border-color 0.3s,
+      box-shadow 0.3s,
+      background-color 0.3s;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .form-input:focus {
-   border-color: #007bff;
+   border-color: #ff6f61;
+   box-shadow: 0 0 15px #ff6f61;
+   background-color: #2a2a2a;
+}
+
+.form-input:invalid {
+   animation: shake 0.3s ease-out;
 }
 
 .form-label {
    position: absolute;
-   top: -12px;
-   left: 10px;
-   background: #f9f9f9;
-   padding: 0 5px;
+   top: 30%;
+   left: 12px;
+   padding: 0 8px;
+   font-size: 16px;
+   color: #bbb;
+   transition:
+      color 0.3s,
+      top 0.3s,
+      font-size 0.3s;
+}
+
+.form-input:focus + .form-label {
+   color: #ff6f61;
+   top: -14px;
    font-size: 14px;
-   color: #666;
 }
 
 .form-button {
    width: 100%;
-   padding: 10px;
-   font-size: 16px;
+   padding: 15px;
+   font-size: 18px;
    color: #fff;
-   background-color: #007bff;
+   background: linear-gradient(45deg, #ff6f61, #e65c50);
    border: none;
-   border-radius: 5px;
+   border-radius: 8px;
    cursor: pointer;
-   transition: background-color 0.3s;
+   transition:
+      background 0.3s,
+      transform 0.3s,
+      box-shadow 0.3s;
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 .form-button:hover {
-   background-color: #0056b3;
+   background: linear-gradient(45deg, #e65c50, #ff6f61);
+   transform: translateY(-3px);
+}
+
+.form-button:active {
+   transform: translateY(1px);
 }
 
 .form-link {
    display: block;
-   margin-top: 10px;
-   font-size: 14px;
-   color: #007bff;
+   margin-top: 20px;
+   font-size: 16px;
+   color: #ff6f61;
    text-align: center;
    text-decoration: none;
-   transition: color 0.3s;
+   transition:
+      color 0.3s,
+      transform 0.3s;
 }
 
 .form-link:hover {
-   color: #0056b3;
+   color: #e65c50;
+   transform: scale(1.05);
 }
 </style>
