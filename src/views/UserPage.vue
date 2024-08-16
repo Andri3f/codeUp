@@ -62,7 +62,7 @@ onMounted(async () => {
 
       axios
       axios.defaults.baseURL = baseURL
-      const response = await axios.get('/api/user-profile', {
+      const response = await axios.get('http://localhost:3000/api/user-profile', {
          headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
          },
@@ -104,7 +104,7 @@ function updateProfile() {
    axios.defaults.baseURL = baseURL
 
    axios
-      .post('/api/update-profile', formData, {
+      .post('http://localhost:3000/api/update-profile', formData, {
          headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
