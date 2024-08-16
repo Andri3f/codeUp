@@ -19,8 +19,7 @@
             </ul>
          </nav>
          <router-link v-if="isUser" :to="{ name: 'user' }" class="header__user-btn">
-            <img v-if="userAvatar" :src="userAvatar" alt="User Avatar" class="header__user-avatar" />
-            <font-awesome-icon v-else :icon="['fas', 'user']" />
+            <font-awesome-icon :icon="['fas', 'user']" />
          </router-link>
 
          <router-link v-else ref="registerBtn" :to="{ name: 'register' }" class="header__login-btn button">
@@ -42,42 +41,18 @@ onMounted(async () => {
    const token = isUser.value
    if (token) {
       try {
-         const response = await axios.get('/api/auth/check-auth', {
+         // Перевірка автентифікації
+         const authResponse = await axios.get('/api/auth/check-auth', {
             headers: {
                Authorization: `Bearer ${token}`,
             },
          })
-
-         isAuthenticated.value = response.data.isAuthenticated
+         isAuthenticated.value = authResponse.data.isAuthenticated
       } catch (err) {
-         console.error('Error checking authentication status:', err)
-         isAuthenticated.value = false
+         console.error('Error checking authentication:', err)
       }
    } else {
       isAuthenticated.value = false
-   }
-})
-
-const userAvatar = ref(null)
-
-onMounted(async () => {
-   const token = isUser.value
-   if (token) {
-      try {
-         const response = await axios.get('/api/auth/user-avatar', {
-            headers: {
-               Authorization: `Bearer ${token}`,
-            },
-         })
-
-         const avatarFileName = response.data.avatar
-         userAvatar.value = `${window.location.origin}/uploads/${avatarFileName}`
-         console.log('Avatar URL:', userAvatar.value)
-         console.log(avatarFileName)
-         console.log('API Response:', response.data)
-      } catch (err) {
-         console.error('Error fetching user avatar:', err)
-      }
    }
 })
 </script>
@@ -221,11 +196,5 @@ onMounted(async () => {
          transition-delay: 1.1s;
       }
    }
-}
-
-.header__user-avatar {
-   width: 40px;
-   height: 40px;
-   border-radius: 50%;
 }
 </style>
