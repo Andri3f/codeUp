@@ -5,7 +5,7 @@ import { userSchema, loginSchema } from '../validator/validation.js'
 import { validateRequest } from '../middlewares/validateRequest.js'
 import { User } from '../models/userModel.js'
 import dotenv from 'dotenv'
-
+import multer from 'multer'
 dotenv.config()
 
 const userRoutes = express.Router()
@@ -54,7 +54,18 @@ userRoutes.post('/login', validateRequest(loginSchema), async (req, res) => {
    }
 })
 
-userRoutes.post('/update-profile', async (req, res) => {
+const storage = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+   },
+   filename: function (req, file, cb) {
+      cb(null, `${Date.now()}-${file.originalname}`)
+   },
+})
+
+const upload = multer({ storage: storage })
+
+userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => {
    const token = req.headers.authorization?.split(' ')[1]
 
    if (!token) {
@@ -69,16 +80,18 @@ userRoutes.post('/update-profile', async (req, res) => {
          return res.status(404).json({ message: 'User not found' })
       }
 
-      const { name, email, phoneNumber, avatar } = req.body
+      const { name, email, phoneNumber } = req.body
 
       if (name) user.name = name
       if (email) user.email = email
       if (phoneNumber) user.phoneNumber = phoneNumber
-      if (avatar) user.avatar = avatar
+      if (req.file) {
+         user.avatar = `/uploads/${req.file.filename}`
+      }
 
       await user.save()
 
-      res.status(200).json({ message: 'Profile updated successfully!' })
+      res.status(200).json({ message: 'Profile updated successfully!', avatar: user.avatar })
    } catch (err) {
       res.status(401).json({ message: 'Invalid token' })
    }
@@ -100,27 +113,6 @@ userRoutes.get('/user-profile', async (req, res) => {
       }
 
       res.status(200).json(user)
-   } catch (err) {
-      res.status(401).json({ message: 'Invalid token' })
-   }
-})
-
-userRoutes.get('/user-avatar', async (req, res) => {
-   const token = req.headers.authorization?.split(' ')[1]
-
-   if (!token) {
-      return res.status(401).json({ message: 'No token provided' })
-   }
-
-   try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET)
-      const user = await User.findById(decoded.userId)
-
-      if (!user) {
-         return res.status(404).json({ message: 'User not found' })
-      }
-
-      res.status(200).json({ avatar: user.avatar })
    } catch (err) {
       res.status(401).json({ message: 'Invalid token' })
    }

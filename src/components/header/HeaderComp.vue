@@ -19,7 +19,8 @@
             </ul>
          </nav>
          <router-link v-if="isUser" :to="{ name: 'user' }" class="header__user-btn">
-            <font-awesome-icon :icon="['fas', 'user']" />
+            <img v-if="avatar" :src="avatar" alt="User Avatar" class="header__avatar" />
+            <font-awesome-icon v-else :icon="['fas', 'user']" />
          </router-link>
 
          <router-link v-else ref="registerBtn" :to="{ name: 'register' }" class="header__login-btn button">
@@ -33,27 +34,26 @@
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 
-const isUser = computed(() => {
-   return localStorage.getItem('authToken')
-})
-const isAuthenticated = ref(false)
+const isUser = computed(() => localStorage.getItem('authToken'))
+const avatar = ref('')
+
 onMounted(async () => {
    const token = isUser.value
    if (token) {
       try {
-         // Перевірка автентифікації
-         const authResponse = await axios.get('/api/auth/check-auth', {
+         const response = await axios.get('/api/user-profile', {
             headers: {
                Authorization: `Bearer ${token}`,
             },
          })
-         isAuthenticated.value = authResponse.data.isAuthenticated
+         avatar.value = response.data.avatar || ''
       } catch (err) {
-         console.error('Error checking authentication:', err)
+         console.error('Error fetching avatar:', err)
       }
-   } else {
-      isAuthenticated.value = false
    }
+   window.addEventListener('avatar-updated', (event) => {
+      avatar.value = event.detail.avatar
+   })
 })
 </script>
 
@@ -195,6 +195,12 @@ onMounted(async () => {
          opacity: 1;
          transition-delay: 1.1s;
       }
+   }
+   .header__avatar {
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      object-fit: cover;
    }
 }
 </style>

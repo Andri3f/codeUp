@@ -1,7 +1,7 @@
 import { createServer as createViteServer } from 'vite'
 import { errorHandler } from '../error/errorHandler.js'
 import userRoutes from '../event/userRoutes.js'
-
+// import { setupMiddlewares } from './setupMiddleware.js'
 export async function setupMiddlewares(app) {
    const vite = await createViteServer({
       server: { middlewareMode: true },

@@ -43,10 +43,10 @@
 </template>
 
 <script setup>
-import MainMasterPage from '../masterPages/MainMasterPage.vue'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import MainMasterPage from '@/masterPages/MainMasterPage.vue'
 
 const router = useRouter()
 const selectedFile = ref(null)
@@ -83,21 +83,27 @@ function addTwoFactorAuth() {}
 
 function updateProfile() {
    const token = localStorage.getItem('authToken')
-   const data = {
-      name: name.value,
-      email: email.value,
-      phoneNumber: phoneNumber.value,
+   const formData = new FormData()
+   formData.append('name', name.value)
+   formData.append('email', email.value)
+   formData.append('phoneNumber', phoneNumber.value)
+   if (selectedFile.value) {
+      formData.append('avatar', selectedFile.value)
    }
 
    axios
-      .post('http://localhost:3000/api/update-profile', data, {
+      .post('http://localhost:3000/api/update-profile', formData, {
          headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
          },
       })
       .then((response) => {
          console.log('Profile updated:', response.data)
+         const event = new CustomEvent('avatar-updated', {
+            detail: { avatar: response.data.avatar },
+         })
+         window.dispatchEvent(event)
       })
       .catch((err) => {
          console.error('Error updating profile:', err)
