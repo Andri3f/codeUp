@@ -19,10 +19,9 @@
             </ul>
          </nav>
          <router-link v-if="isUser" :to="{ name: 'user' }" class="header__user-btn">
-            <img v-if="avatar" :src="avatar" alt="User Avatar" class="header__avatar" />
+            <img v-if="avatar" :src="'../../..' + avatar" alt="User Avatar" class="header__avatar" />
             <font-awesome-icon v-else :icon="['fas', 'user']" />
          </router-link>
-
          <router-link v-else ref="registerBtn" :to="{ name: 'register' }" class="header__login-btn button">
             Login/Register
          </router-link>
@@ -47,6 +46,8 @@ onMounted(async () => {
             },
          })
          avatar.value = response.data.avatar || ''
+         console.log('avatar.value');
+         console.log(avatar.value);
       } catch (err) {
          console.error('Error fetching avatar:', err)
       }
