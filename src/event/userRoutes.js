@@ -19,26 +19,6 @@ const userRoutes = express.Router()
 
 const baseURL = process.env.BASE_URL || 'https://main--mybestcodeup.netlify.app'
 
-const storage = multer.diskStorage({
-   destination: function (req, file, cb) {
-      cb(null, 'uploads/')
-   },
-   filename: function (req, file, cb) {
-      cb(null, `${Date.now()}-${file.originalname}`)
-   },
-})
-
-const upload = multer({ storage: storage })
-
-function deleteFile(filePath) {
-   const fullPath = path.join(__dirname, '../../uploads', filePath)
-   fs.unlink(fullPath, (err) => {
-      if (err) {
-         console.error('Error deleting file:', err)
-      }
-   })
-}
-
 userRoutes.post('/register', validateRequest(userSchema), async (req, res) => {
    try {
       const { name, email, password } = req.body
@@ -83,6 +63,26 @@ userRoutes.post('/login', validateRequest(loginSchema), async (req, res) => {
       res.status(500).json({ message: 'Error logging in', error: err.message })
    }
 })
+
+const storage = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+   },
+   filename: function (req, file, cb) {
+      cb(null, `${Date.now()}-${file.originalname}`)
+   },
+})
+
+const upload = multer({ storage: storage })
+
+function deleteFile(filePath) {
+   const fullPath = path.join(__dirname, '../../uploads', filePath)
+   fs.unlink(fullPath, (err) => {
+      if (err) {
+         console.error('Error deleting file:', err)
+      }
+   })
+}
 
 userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => {
    const token = req.headers.authorization?.split(' ')[1]
