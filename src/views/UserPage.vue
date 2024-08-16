@@ -24,10 +24,10 @@
                      @focus="isEditingPhoneNumber = true"
                   />
                </label>
-
-               <label class="user-page__label">
+               <label class="user-page__label user-page__file-label">
                   <span class="user-page__label-text">Change Avatar</span>
                   <input accept="image/*" class="user-page__file-input" type="file" @change="onFileSelected" />
+                  <span class="user-page__file-label-text">{{ fileName || 'Choose a file' }}</span>
                </label>
 
                <button type="submit" class="user-page__button">Update Profile</button>
@@ -50,6 +50,7 @@ import MainMasterPage from '@/masterPages/MainMasterPage.vue'
 
 const router = useRouter()
 const selectedFile = ref(null)
+const fileName = ref('')
 const name = ref('')
 const email = ref('')
 const phoneNumber = ref('')
@@ -77,6 +78,7 @@ function onLogout() {
 
 function onFileSelected(event) {
    selectedFile.value = event.target.files[0]
+   fileName.value = event.target.files[0] ? event.target.files[0].name : ''
 }
 
 function addTwoFactorAuth() {}
@@ -117,23 +119,23 @@ function updateProfile() {
    justify-content: center;
    align-items: center;
    padding: 30px;
+   background-color: #0c0b0b;
 
    &__container {
       max-width: 700px;
       width: 100%;
-      background: #ffffff;
+      background: #1e1e1e;
       border-radius: 12px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
       padding: 40px;
       display: flex;
       flex-direction: column;
       gap: 30px;
-      border: 1px solid #ddd;
 
       .user-page__title {
          font-size: 28px;
          font-weight: 700;
-         color: #2c3e50;
+         color: #ecf0f1;
          text-align: center;
          margin-bottom: 20px;
          border-bottom: 2px solid #3498db;
@@ -149,24 +151,57 @@ function updateProfile() {
          display: flex;
          flex-direction: column;
          font-size: 16px;
-         color: #34495e;
+         color: #bdc3c7;
          font-weight: 500;
          position: relative;
+         cursor: pointer;
+         transition: color 0.3s;
+      }
+
+      .user-page__file-label {
+         align-items: center;
+         background: #2c3e50;
+         border: 1px solid #444;
+         border-radius: 8px;
+         padding: 12px;
+         gap: 10px;
+         display: flex;
+         cursor: pointer;
+         transition:
+            background-color 0.3s,
+            border-color 0.3s;
+      }
+
+      .user-page__file-label:hover {
+         background-color: #34495e;
+         border-color: #3498db;
       }
 
       .user-page__label-text {
-         margin-bottom: 5px;
          font-size: 16px;
          font-weight: 600;
-         color: #2c3e50;
+         color: #ecf0f1;
+         margin-bottom: 5px;
+      }
+
+      .user-page__file-input {
+         display: none; // Hide default file input
+      }
+
+      .user-page__file-label-text {
+         font-size: 14px;
+         color: #bdc3c7;
+         margin: 0;
       }
 
       .user-page__input {
          padding: 12px 15px;
          font-size: 16px;
-         border: 1px solid #ccc;
+         border: 1px solid #444;
          border-radius: 8px;
          width: 100%;
+         background: #2c3e50;
+         color: #ecf0f1;
          transition: border-color 0.3s;
 
          &:focus {
@@ -176,15 +211,9 @@ function updateProfile() {
          }
       }
 
-      .user-page__file-input {
-         padding: 0;
-         font-size: 16px;
-         color: #333;
-      }
-
       .user-page__button {
          background-color: #3498db;
-         color: white;
+         color: #ecf0f1;
          padding: 12px 20px;
          border: none;
          border-radius: 8px;
@@ -197,7 +226,7 @@ function updateProfile() {
 
          &:hover {
             background-color: #2980b9;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
          }
 
          &:active {
@@ -233,6 +262,30 @@ function updateProfile() {
             background-color: #e67e22;
          }
       }
+   }
+   .user-page__file-label {
+      align-items: center;
+      background: #2c3e50;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 12px;
+      gap: 10px;
+      display: flex;
+      cursor: pointer;
+      transition:
+         background-color 0.3s,
+         border-color 0.3s;
+   }
+
+   .user-page__file-label:hover {
+      background-color: #34495e;
+      border-color: #3498db;
+   }
+
+   .user-page__file-label-text {
+      font-size: 14px;
+      color: #bdc3c7;
+      margin: 0;
    }
 }
 </style>
