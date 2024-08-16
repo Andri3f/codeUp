@@ -6,7 +6,14 @@ import { validateRequest } from '../middlewares/validateRequest.js'
 import { User } from '../models/userModel.js'
 import dotenv from 'dotenv'
 import multer from 'multer'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
 dotenv.config()
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const userRoutes = express.Router()
 
@@ -64,6 +71,14 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
+function deleteFile(filePath) {
+   const fullPath = path.join(__dirname, '../../uploads', filePath)
+   fs.unlink(fullPath, (err) => {
+      if (err) {
+         console.error('Error deleting file:', err)
+      }
+   })
+}
 
 userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => {
    const token = req.headers.authorization?.split(' ')[1]
@@ -86,6 +101,9 @@ userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => 
       if (email) user.email = email
       if (phoneNumber) user.phoneNumber = phoneNumber
       if (req.file) {
+         if (user.avatar) {
+            deleteFile(user.avatar.split('/uploads/')[1])
+         }
          user.avatar = `/uploads/${req.file.filename}`
       }
 
@@ -115,6 +133,21 @@ userRoutes.get('/user-profile', async (req, res) => {
       res.status(200).json(user)
    } catch (err) {
       res.status(401).json({ message: 'Invalid token' })
+   }
+})
+
+userRoutes.get('/check-auth', (req, res) => {
+   const token = req.headers.authorization?.split(' ')[1]
+
+   if (!token) {
+      return res.json({ isAuthenticated: false })
+   }
+
+   try {
+      jwt.verify(token, process.env.JWT_SECRET)
+      return res.json({ isAuthenticated: true })
+   } catch (err) {
+      return res.json({ isAuthenticated: false })
    }
 })
 
