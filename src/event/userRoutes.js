@@ -104,7 +104,10 @@ userRoutes.post('/update-profile', upload.single('avatar'), async (req, res) => 
          if (user.avatar) {
             deleteFile(user.avatar.split('/uploads/')[1])
          }
-         user.avatar = `/uploads/${req.file.filename}`
+
+         const baseURL = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : 'http://localhost:3000'
+
+         user.avatar = `${baseURL}/uploads/${req.file.filename}`
       }
 
       await user.save()
