@@ -60,7 +60,7 @@ onMounted(async () => {
       const baseURL = import.meta.env.MODE === 'production' ? import.meta.env.VITE_BASE_URL : 'http://localhost:3000'
 
       axios.defaults.baseURL = baseURL
-      const response = await axios.get('http://localhost:3000/api/user-profile', {
+      const response = await axios.get(`${baseURL}/api/user-profile`, {
          headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
          },
@@ -100,7 +100,7 @@ function updateProfile() {
    axios.defaults.baseURL = baseURL
 
    axios
-      .post('http://localhost:3000/api/update-profile', formData, {
+      .post(`${baseURL}/api/update-profile`, formData, {
          headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
