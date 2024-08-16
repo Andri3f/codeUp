@@ -23,7 +23,7 @@
 
 <script setup>
 import { defineProps } from 'vue'
-import { getImagePath } from '../../localScript/functions/index'
+//import { getImagePath } from '../../localScript/functions/index'
 
 const props = defineProps({
    coursesList: {
@@ -31,6 +31,9 @@ const props = defineProps({
       required: true,
    },
 })
+const getImagePath = (imgPath) => {
+   return new URL(`../../assets/img/home/${imgPath}`, import.meta.url).href;
+ };
 </script>
 
 <style lang="scss" scoped>
