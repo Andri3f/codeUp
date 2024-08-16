@@ -94,7 +94,7 @@ function updateProfile() {
    }
 
    axios
-      .post('http://localhost:3000/api/update-profile', formData, {
+      .post('/api/update-profile', formData, {
          headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
