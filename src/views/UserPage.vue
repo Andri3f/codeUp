@@ -11,11 +11,9 @@
                      type="text"
                      class="user-page__input"
                      placeholder="Enter your name"
-                     :disabled="!isEditingName"
+                  
                   />
-                  <button type="button" class="user-page__button user-page__button--edit" @click="isEditingName = true">
-                     Edit
-                  </button>
+                 
                </label>
 
                <label class="user-page__label">
@@ -25,15 +23,8 @@
                      type="email"
                      class="user-page__input"
                      placeholder="Enter your email"
-                     :disabled="!isEditingEmail"
                   />
-                  <button
-                     type="button"
-                     class="user-page__button user-page__button--edit"
-                     @click="isEditingEmail = true"
-                  >
-                     Edit
-                  </button>
+                  
                </label>
 
                <label class="user-page__label">
@@ -43,16 +34,10 @@
                      type="tel"
                      class="user-page__input"
                      :placeholder="phoneNumber ? '' : 'Enter your phone number'"
-                     :disabled="!isEditingPhoneNumber"
+                     
                      @focus="isEditingPhoneNumber = true"
                   />
-                  <button
-                     type="button"
-                     class="user-page__button user-page__button--edit"
-                     @click="isEditingPhoneNumber = true"
-                  >
-                     Edit
-                  </button>
+                  
                </label>
 
                <label class="user-page__label">
@@ -83,12 +68,10 @@ const selectedFile = ref(null)
 const name = ref('')
 const email = ref('')
 const phoneNumber = ref('')
-const isEditingName = ref(false)
-const isEditingEmail = ref(false)
-const isEditingPhoneNumber = ref(false)
 
 onMounted(() => {
    const storedUser = localStorage.getItem('userProfile')
+
    if (storedUser) {
       const user = JSON.parse(storedUser)
       name.value = user.name
@@ -106,7 +89,7 @@ onMounted(() => {
             name.value = user.name
             email.value = user.email
             phoneNumber.value = user.phoneNumber || ''
-            // localStorage.setItem('userProfile', JSON.stringify(user))
+             localStorage.setItem('userProfile', JSON.stringify(user))
          })
          .catch((error) => {
             console.error('Error fetching user profile:', error)
@@ -116,6 +99,7 @@ onMounted(() => {
 
 function onLogout() {
    localStorage.removeItem('authToken')
+   localStorage.removeItem('userProfile')
    router.push({ name: 'home' })
 }
 
@@ -142,9 +126,6 @@ function updateProfile() {
       })
       .then((response) => {
          console.log('Profile updated:', response.data)
-         isEditingName.value = false
-         isEditingEmail.value = false
-         isEditingPhoneNumber.value = false
          localStorage.setItem(
             'userProfile',
             JSON.stringify({
