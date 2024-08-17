@@ -5,11 +5,6 @@ import { errorMessages } from 'vue/compiler-sfc'
 export const useUsersStore = defineStore('users', () => {
    async function onRegister({ name, mail, pass }) {
       try {
-         const baseURL =
-            process.env.NODE_ENV === 'production' ? 'https://main--mybestcodeup.netlify.app' : 'http://localhost:3000'
-
-         axios
-         axios.defaults.baseURL = baseURL
          const response = await axios.post('http://localhost:3000/api/register', {
             name,
             email: mail,
@@ -26,11 +21,6 @@ export const useUsersStore = defineStore('users', () => {
    }
    async function onLogin({ mail, pass }) {
       try {
-         const baseURL =
-            process.env.NODE_ENV === 'production' ? 'https://main--mybestcodeup.netlify.app' : 'http://localhost:3000'
-
-         axios
-         axios.defaults.baseURL = baseURL
          const response = await axios.post('http://localhost:3000/api/login', {
             email: mail,
             password: pass,

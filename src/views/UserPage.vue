@@ -57,9 +57,6 @@ const phoneNumber = ref('')
 
 onMounted(async () => {
    try {
-      const baseURL = import.meta.env.MODE === 'production' ? import.meta.env.VITE_BASE_URL : 'http://localhost:3000'
-
-      axios.defaults.baseURL = baseURL
       const response = await axios.get('http://localhost:3000/api/user-profile', {
          headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -95,10 +92,6 @@ function updateProfile() {
    if (selectedFile.value) {
       formData.append('avatar', selectedFile.value)
    }
-   const baseURL = import.meta.env.MODE === 'production' ? import.meta.env.VITE_BASE_URL : 'http://localhost:3000'
-
-   axios.defaults.baseURL = baseURL
-
    axios
       .post('http://localhost:3000/api/update-profile', formData, {
          headers: {
