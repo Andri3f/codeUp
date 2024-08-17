@@ -3,9 +3,10 @@ import axios from 'axios'
 import { errorMessages } from 'vue/compiler-sfc'
 
 export const useUsersStore = defineStore('users', () => {
+   const apiUrl = import.meta.env.VITE_API_URL
    async function onRegister({ name, mail, pass }) {
       try {
-         const response = await axios.post('http://localhost:3000/api/register', {
+         const response = await axios.post(`${apiUrl}/register`, {
             name,
             email: mail,
             password: pass,
@@ -21,7 +22,7 @@ export const useUsersStore = defineStore('users', () => {
    }
    async function onLogin({ mail, pass }) {
       try {
-         const response = await axios.post('http://localhost:3000/api/login', {
+         const response = await axios.post(`${apiUrl}/login`, {
             email: mail,
             password: pass,
          })
